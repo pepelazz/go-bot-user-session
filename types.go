@@ -1,7 +1,7 @@
 package userSession
 
 import (
-	"github.com/pepelazz/eduBot_1.0/_libs/telebot"
+	"github.com/pepelazz/go-bot-telebot"
 	"strconv"
 	"github.com/pepelazz/go-bot-common"
 )
