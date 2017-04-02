@@ -38,8 +38,9 @@ func (s *S) SendMsg() (result *telebot.MsgResult, err error) {
 		err = Bot.SendDocument(s, &s.BotMsg.AnswerDocument, s.SendOptions())
 		Graylog.L().Infom(map[string]interface{}{"userId": s.IdInt(), "type": "answerDocument"}, s.BotMsg.AnswerDocument.FileName)
 	case BotMsgTypeText:
-		result, err = Bot.SendMessage(s, s.AnswerMsg(), s.SendOptions())
-		Graylog.L().Infom(map[string]interface{}{"userId": s.IdInt(), "type": "answerTxt"}, s.AnswerMsg())
+		msg := strings.Replace(s.AnswerMsg(), "\\n", "\n", -1)
+		result, err = Bot.SendMessage(s, msg, s.SendOptions())
+		Graylog.L().Infom(map[string]interface{}{"userId": s.IdInt(), "type": "answerTxt"}, msg)
 	default:
 		result, err = Bot.SendMessage(s, s.AnswerMsg(), nil)
 	}
