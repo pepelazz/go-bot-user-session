@@ -119,6 +119,11 @@ func (s *S) IdInt() (id int) {
 	return
 }
 
+func (s *S) IdInt64() (id int64) {
+	id, _ = strconv.ParseInt(s.Id, 10, 64)
+	return
+}
+
 func (s *S) Kb() [][]string {
 	return s.BotMsg.SendOptions.ReplyMarkup.CustomKeyboard
 }
@@ -162,6 +167,23 @@ func (s *S) HideKb() *S {
 
 func (s *S) ClearAllKb() *S {
 	s.BotMsg.SendOptions = &telebot.SendOptions{ParseMode: telebot.ModeHTML}
+	return s
+}
+
+func (s *S) CallbackReqData() string {
+	return s.Callback.Req.Data
+}
+
+func (s *S) SetCbAnswerMsg(msg string) *S {
+	s.BotMsg.AnswerMessage = msg
+	return s
+}
+
+func (s *S) SendCbMsg(bot * telebot.Bot) *S {
+	res := &telebot.CallbackResponse{}
+	res.CallbackID = s.Callback.Req.ID
+	res.Text = s.AnswerMsg()
+	bot.AnswerCallbackQuery(s.Callback.Req, res)
 	return s
 }
 
